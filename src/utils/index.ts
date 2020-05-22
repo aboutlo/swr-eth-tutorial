@@ -2,6 +2,7 @@ import { Contract } from "@ethersproject/contracts"
 import { ABI } from "../abi/index"
 import { Web3Provider } from "@ethersproject/providers"
 import memoize from "fast-memoize"
+import { keyInterface } from "swr"
 
 export function buildContract(address:string, abi:any, library:Web3Provider) {
   return new Contract(address, abi, library.getSigner())
@@ -9,31 +10,29 @@ export function buildContract(address:string, abi:any, library:Web3Provider) {
 
 export const memoizedBuildContract = memoize(buildContract)
 
+export const ethMethodKey = (args): keyInterface => {
+  return args
+}
+
+export const ethContractKey = (args): keyInterface => {
+  return [ABI.ERC20, ...args]
+}
+
 export const web3Fetcher = (
   library: Web3Provider,
   ABIs: Map<ABI, any>
 ) => async (...args) => {
   // debugger
-  const [provider] = args
-  const isContract = Object.values(ABI).includes(provider)
+  const [abi] = args
+  const isContract = ABIs.get(abi) !== undefined
   if (isContract) {
     const [_, address, method, ...params] = args
     // extract as buildContract memoized
     const contract = buildContract(
       address,
-      ABIs.get(provider),
+      ABIs.get(abi),
       library
     )
-    /*const [paramWithFilter] = params.filter((p) => p.hasOwnProperty("filters"))
-    if (paramWithFilter) {
-      paramWithFilter.filters.forEach((filter) => {
-        contract.once(filter, () => {
-          console.log("mutate", { args })
-          mutate(args)
-        })
-      })
-    }*/
-
     console.log({ contract: address, method, params })
     return contract[method](...params)
   }

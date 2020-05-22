@@ -6,8 +6,7 @@ import { formatEther } from "@ethersproject/units"
 import { BigNumber } from "@ethersproject/bignumber"
 
 export const EtherView = () => {
-  const context = useWeb3React<Web3Provider>()
-  const { account, library } = context
+  const { account, library } = useWeb3React<Web3Provider>()
 
   const {
     data: ethBalance,
@@ -36,13 +35,6 @@ export const EtherView = () => {
     .once(account, (balance) => {
       updateBalance(balance, false)
     })
-
-  console.log({
-    isValidating,
-    blockNumberIsValidating,
-    ethBalance,
-    blockNumber,
-  })
 
   /*if (!ethBalance || !blockNumber) {
     return <pre>...</pre>
