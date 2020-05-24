@@ -27,7 +27,7 @@ function getLibrary(provider: any): Web3Provider {
 
 const fetcher = (library) => (...args) => {
   const [method, ...params] = args
-  console.log(method, params)
+  // console.log(method, params)
   return library[method](...params)
 }
 
@@ -39,16 +39,16 @@ export const Balance = () => {
 
   useEffect(() => {
     // listen for changes on an Ethereum address
-    console.log(`listening ${account}...`)
-    library.on(account, (balance) => {
-      console.log({ account, balance })
-      mutate(balance, false)
+    console.log(`listening for blocks...`)
+    library.on('block', () => {
+      console.log('update balance...')
+      mutate(undefined, true)
     })
     // remove listener when the component is unmounted
     return () => {
-      library.removeAllListeners(account)
+      library.removeAllListeners('block')
     }
-  // trigger the effect only once
+    // trigger the effect only on component mount
   }, [])
 
   if (!balance) {
