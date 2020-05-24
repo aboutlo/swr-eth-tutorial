@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Web3ReactProvider } from '@web3-react/core'
 import { Web3Provider } from '@ethersproject/providers'
 import { useWeb3React } from '@web3-react/core'
 import { InjectedConnector } from '@web3-react/injected-connector'
 import useSWR from 'swr'
-import {formatEther} from "@ethersproject/units";
+import { formatEther } from '@ethersproject/units'
 
-export const shorter = str =>
-    str?.length > 8 ? str.slice(0, 6) + '...' + str.slice(-4) : str
+export const shorter = (str) =>
+  str?.length > 8 ? str.slice(0, 6) + '...' + str.slice(-4) : str
 
 export const injectedConnector = new InjectedConnector({
   supportedChainIds: [
@@ -33,15 +33,29 @@ const fetcher = (library) => (...args) => {
 
 export const Balance = () => {
   const { account, library } = useWeb3React<Web3Provider>()
-  const { data: balance } = useSWR(['getBalance', account, 'latest'], {
+  const { data: balance, mutate } = useSWR(['getBalance', account, 'latest'], {
     fetcher: fetcher(library),
   })
-  if(!balance) {
+
+  useEffect(() => {
+    // listen for changes on an Ethereum address
+    console.log(`listening ${account}...`)
+    library.on(account, (balance) => {
+      console.log({ account, balance })
+      mutate(balance, false)
+    })
+    // remove listener when the component is unmounted
+    return () => {
+      library.removeAllListeners(account)
+    }
+  // trigger the effect only once
+  }, [])
+
+  if (!balance) {
     return <div>...</div>
   }
   return <div>Ξ {parseFloat(formatEther(balance)).toPrecision(4)}</div>
 }
-
 
 export const Wallet = () => {
   const { chainId, account, activate, active } = useWeb3React<Web3Provider>()
