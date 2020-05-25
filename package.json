@@ -26,6 +26,7 @@
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@ethersproject/address": "^5.0.0-beta.135",
     "@ethersproject/bignumber": "^5.0.0-beta.139",
     "@ethersproject/contracts": "^5.0.0-beta.152",
     "@ethersproject/providers": "^5.0.0-beta.166",
