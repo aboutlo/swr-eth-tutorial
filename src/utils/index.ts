@@ -1,8 +1,6 @@
 import { Contract } from '@ethersproject/contracts'
 import { ABI } from '../abi'
 import { Web3Provider } from '@ethersproject/providers'
-import memoize from 'fast-memoize'
-import { keyInterface } from 'swr'
 import { isAddress } from '@ethersproject/address'
 
 export function buildContract(
@@ -11,16 +9,6 @@ export function buildContract(
   library: Web3Provider
 ) {
   return new Contract(address, abi, library.getSigner())
-}
-
-export const memoizedBuildContract = memoize(buildContract)
-
-export const ethMethodKey = (args): keyInterface => {
-  return args
-}
-
-export const ethContractKey = (args): keyInterface => {
-  return [ABI.ERC20, ...args]
 }
 
 export const web3Fetcher = (
