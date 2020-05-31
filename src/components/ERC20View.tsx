@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo } from "react"
-import { buildContract, ethContractKey, IERC20, memoizedBuildContract } from "../utils"
-import useSWR, { keyInterface } from "swr"
+import React from "react"
+import { ethContractKey, IERC20 } from "../utils"
+import useSWR from "swr"
 import { useWeb3React } from "@web3-react/core"
 import { Web3Provider } from "@ethersproject/providers"
 import { formatUnits } from "@ethersproject/units"
 import { BigNumber } from "@ethersproject/bignumber"
-import { ABI, ABIs } from "../abi"
 import { useWeb3Filter } from "../hooks/useWeb3Filter"
 
 
