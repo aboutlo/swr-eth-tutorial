@@ -14,6 +14,9 @@ export const injectedConnector = new InjectedConnector({
   ],
 })
 
+export const shorter = str =>
+  str?.length > 8 ? str.slice(0, 6) + '...' + str.slice(-4) : str
+
 function getLibrary(provider: any): Web3Provider {
   const library = new Web3Provider(provider)
   library.pollingInterval = 12000
@@ -30,7 +33,7 @@ export const Wallet = () => {
   return (
     <div>
       <div>ChainId: {chainId}</div>
-      <div>Account: {account}</div>
+      <div>Account: {shorter(account)}</div>
       {active ? (
         <div>✅ </div>
       ) : (
