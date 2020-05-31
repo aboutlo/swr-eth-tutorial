@@ -38,6 +38,7 @@
     "react": "^16.13.1",
     "react-cryptocoins": "^1.0.11",
     "react-dom": "^16.13.1",
+    "react-is": "^16.13.1",
     "styled-components": "^5.1.0",
     "swr": "^0.2.0",
     "swr-eth": "^0.1.2"
