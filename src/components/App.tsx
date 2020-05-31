@@ -39,6 +39,7 @@ export const Balance = () => {
   if(!balance) {
     return <div>...</div>
   }
+  // return <div>Ξ {balance.toString()}</div>
   return <div>Ξ {parseFloat(formatEther(balance)).toPrecision(4)}</div>
 }
 
