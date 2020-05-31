@@ -12405,6 +12405,11 @@ swarm-js@0.1.39:
     tar "^4.0.2"
     xhr-request-promise "^0.1.2"
 
+swr-eth@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/swr-eth/-/swr-eth-0.1.2.tgz#73d161152208e2e016b11c9c704a620e2f8686ad"
+  integrity sha512-o/4qo0bydPb/uYCiyXyE8nuSqICMDG+mqgyM0+OWCHss7Q1MlSXTy906bwQy+yGRA76z7eCOlmP8A71qZw/0YQ==
+
 swr@^0.2.0:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/swr/-/swr-0.2.2.tgz#6e1b3e5c0e545c4fdb36ae3aa38cd94d0f9a88b7"

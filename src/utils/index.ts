@@ -1,7 +1,4 @@
-import { Contract } from '@ethersproject/contracts'
-import { Web3Provider } from '@ethersproject/providers'
-import { isAddress } from '@ethersproject/address'
-
+import ERC20ABI from '../abi/ERC20.abi.json'
 export const Networks = {
   MainNet: 1,
   Ropsten: 3,
@@ -15,6 +12,7 @@ export interface IERC20 {
   address: string
   decimals: number
   name: string
+  abi: any
 }
 
 export const TOKENS_BY_NETWORK: {
@@ -26,12 +24,14 @@ export const TOKENS_BY_NETWORK: {
       name: 'Maker',
       symbol: 'MKR',
       decimals: 18,
+      abi: ERC20ABI,
     },
     {
       address: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
       name: 'Dai Stablecoin',
       symbol: 'DAI',
       decimals: 18,
+      abi: ERC20ABI,
     },
   ],
   [Networks.Rinkeby]: [
@@ -40,28 +40,30 @@ export const TOKENS_BY_NETWORK: {
       symbol: 'DAI',
       name: 'Dai',
       decimals: 18,
+      abi: ERC20ABI,
     },
     {
       address: '0xF9bA5210F91D0474bd1e1DcDAeC4C58E359AaD85',
       symbol: 'MKR',
       name: 'Maker',
       decimals: 18,
+      abi: ERC20ABI,
     },
   ],
 }
 export const shorter = (str) =>
   str?.length > 8 ? str.slice(0, 6) + '...' + str.slice(-4) : str
 
-export const fetcher = (library: Web3Provider, abi?: any) => (...args) => {
-  const [arg1, arg2, ...params] = args
-  // it's a contract
-  if (isAddress(arg1)) {
-    const address = arg1
-    const method = arg2
-    const contract = new Contract(address, abi, library.getSigner())
-    return contract[method](...params)
-  }
-  // it's a eth call
-  const method = arg1
-  return library[method](arg2, ...params)
-}
+// export const fetcher = (library: Web3Provider, abi?: any) => (...args) => {
+//   const [arg1, arg2, ...params] = args
+//   // it's a contract
+//   if (isAddress(arg1)) {
+//     const address = arg1
+//     const method = arg2
+//     const contract = new Contract(address, abi, library.getSigner())
+//     return contract[method](...params)
+//   }
+//   // it's a eth call
+//   const method = arg1
+//   return library[method](arg2, ...params)
+// }
