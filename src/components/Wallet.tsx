@@ -8,6 +8,8 @@ import ERC20ABI from "../abi/ERC20.abi.json";
 import {EthBalance} from "./EthBalance";
 import {TokenList} from "./TokenList";
 import {InjectedConnector} from "@web3-react/injected-connector";
+import { useEagerConnect } from '../hooks/useEagerConnect'
+import { useInactiveListener } from '../hooks/useInactiveListener'
 
 export const injectedConnector = new InjectedConnector({
   supportedChainIds: [
@@ -27,6 +29,20 @@ export const Wallet = () => {
   const onClick = () => {
     activate(injectedConnector)
   }
+
+  // handle logic to recognize the connector currently being activated
+  const [activatingConnector, setActivatingConnector] = React.useState()
+  React.useEffect(() => {
+    console.log("Wallet running")
+    if (activatingConnector && activatingConnector === connector) {
+      setActivatingConnector(undefined)
+    }
+  }, [activatingConnector, connector])
+
+  // mount only once or face issues :P
+  const triedEager = useEagerConnect()
+  useInactiveListener(!triedEager || !!activatingConnector)
+  console.log({ library, active, triedEager, activatingConnector })
 
   return (
       <div>
