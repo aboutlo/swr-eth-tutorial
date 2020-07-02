@@ -4,7 +4,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import { Wallet } from './Wallet'
 
 function getLibrary(provider: any): Web3Provider {
-  const library = new Web3Provider(provider)
+  const library = new Web3Provider(provider,"any")
   library.pollingInterval = 12000
   return library
 }
